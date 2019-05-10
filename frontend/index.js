@@ -1,4 +1,3 @@
-
 /* eslint-disable linebreak-style */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable max-len */
@@ -14,41 +13,43 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 // TODO:get account balance
-app.get('/', (req, res) => {
-  res.json({message: web3.fromWei(web3.eth.getBalance(web3.eth.accounts[0]))});
+// 용법 : ~~~/name/address -> address의 잔액을 전송한다.
+app.get('/name/:name', (req, res) => {
+  res.json({name: req.params.name, pay: web3.fromWei(web3.eth.getBalance(req.params.name))});
 });
 
-
-app.put('/', (req, res) => {
-  res.json({message: 'put'});
-});
-
-// TODO:send transaction
-app.post('/', (req, res) => {
+// Sender to Deliverer
+app.post('/STD/', (req, res) => {
   if (web3.personal.unlockAccount(req.body.from, req.body.pass)) {
     web3.eth.sendTransaction({from: req.body.from, to: req.body.to, value: req.body.amount}, (err, result)=>{
       if (!err) {
-        console.log('Transaction is sent Successful!('+result+')');
+        res.json({message: 'Transaction is sent Successful!('+result+')'});
       } else {
-        console.log(err);
+        res.json({message: err});
       }
     });
   }
-  res.json({message: 'post'});
 });
 
-app.delete('/', (req, res) => {
-  res.json({message: 'delete'});
+// Deliverer to receiver
+app.post('/DTR/', (req, res) => {
+  if (web3.personal.unlockAccount(req.body.from, req.body.pass)) {
+    web3.eth.sendTransaction({from: req.body.from, to: req.body.to, value: req.body.amount}, (err, result)=>{
+      if (!err) {
+        res.json({message: 'Transaction is sent Successful!('+result+')'});
+      } else {
+        res.json({message: err});
+      }
+    });
+  }
 });
 
-app.patch('/', (req, res) => {
-  res.json({message: 'patch'});
-});
 
-app.copy('/', (req, res) => {
-  res.json({message: 'copy'});
+app.post('/newAccount', (req, res)=>{
+  const newId = web3.personal.newAccount('1234');
+  res.json({name: newId});
 });
 
 app.listen(portAddress, () => {
-  console.log('example');
+  console.log('Start Server');
 });

@@ -1,0 +1,1 @@
+geth --datadir . --networkid 2757 --rpc --rpcport 8545 --rpccorsdomain "*" --rpcapi "db,eth,net,web3,personal" --nodiscover console;
