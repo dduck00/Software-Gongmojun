@@ -1,4 +1,4 @@
-pragma solidity ^0.4.16;
+pragma solidity ^0.4.30;
 
 /// @title 위임 투표.
 contract Ballot {
