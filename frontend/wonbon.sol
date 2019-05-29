@@ -11,8 +11,9 @@ contract aaa {
     mapping (string => parcel) box;
 
 
-    function A_TO_D(address receiv, address deliver_, string memory parcel_) payable public {
+    function A_TO_D(address receiv, address deliver_, string memory parcel_) payable public returns (address sender, address receiver, address deliverer, uint coin) {
         box[parcel_] = parcel(msg.sender, receiv, deliver_, msg.value);
+        return (box[parcel_].sender, box[parcel_].receiver, box[parcel_].deliverer, box[parcel_].coin);
     }
 
     function D_TO_R(address deliver_, string memory parcel_) payable public {
