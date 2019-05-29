@@ -148,8 +148,8 @@ app.post('/DTR/', (req, res) => {
 });
 
 
-app.post('/newAccount', (req, res)=>{
-  const newId = web3.personal.newAccount('1234');
+app.get('/newAccount/:pass', (req, res)=>{
+  const newId = web3.personal.newAccount(req.params.pass);
   res.json({name: newId});
 });
 
