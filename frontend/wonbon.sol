@@ -19,11 +19,9 @@ contract aaa {
     function D_TO_R(address deliver_, string memory parcel_) payable public {
         require(box[parcel_].receiver == msg.sender);
         deliver_.transfer(box[parcel_].coin);
-        delete box[parcel_];
     }
-    
+
     function show_box(string parcel_) public view returns (address sender, address receiver, address deliverer, uint coin) {
         return (box[parcel_].sender, box[parcel_].receiver, box[parcel_].deliverer, box[parcel_].coin);
     }
-    
 }
