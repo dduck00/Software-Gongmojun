@@ -136,6 +136,7 @@ app.post('/STD/', (req, res) => {
 
 app.get('/get/:data', (req, res) => {
   const parcel_data = couce.show_box(req.params.data);
+  console.log(parcel_data);
   res.json({sender: parcel_data[0], receiver: parcel_data[1], deliverer: parcel_data[2]});
 });
 
@@ -144,8 +145,10 @@ app.post('/DTR/', (req, res) => {
   if (web3.personal.unlockAccount(req.body.from, req.body.pass)) {
     couce.D_TO_R(req.body.deliver_, req.body.parcel_, {from: req.body.from, gas: 2000000}, (err, result) => {
       if (!err) {
+        console.log(result);
         res.json({message: 'Transaction is sent Successful!(' + result + ')'});
       } else {
+        console.log(err);
         res.json({message: err});
       }
     });
@@ -157,6 +160,7 @@ app.get('/newAccount/:pass', (req, res) => {
   const newId = web3.personal.newAccount(req.params.pass);
   web3.personal.unlockAccount(web3.eth.coinbase, '1234');
   web3.eth.sendTransaction({to: newId, from: web3.eth.coinbase, value: web3.toWei('100', 'ether')}); // 최초 코인 할당.
+  console.log(newId);
   res.json({name: newId});
 });
 
